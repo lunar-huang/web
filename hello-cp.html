@@ -1,17 +1,23 @@
+<!--在html tag前写的内容也会被显示到网页中-->
+<div>test above doctype</div>
 <!DOCTYPE html>
+<div>test above html tag</div>
 <html>
 <head>
-    <p style="width:100%;background-color:bisque">
-    <div style="width:100%;background-color:aquamarine">
+    <style>
+        .mygreetings:{
+                color:darkslategrey;
+        }
+    </style>
+    <title>Luanrhuang Page</title>    
+    <div style="width:100%;background-color:aquamarine"></div>
 </head>
-<body>
-    
-<h1>Hello World!</h1>
 
+<body>    
+<h1>Hello World!</h1>
+<p style="width:100%;background-color:bisque">test</p>
 <p>Hello from SG</p> 
-<div> wieloa;slk</div>
 <a href="https://pathfinder.w3schools.com/">google!</a></br>
-brrrrrrrr</br>
 brrrrrrrr</br>
 <table>
     <tr>
@@ -27,26 +33,24 @@ brrrrrrrr</br>
     <option>china</option>    
     <option>USA</option>
 </select>
-<textarea></textarea>
-<div id="d1" classname="greetings">
-    aeliosfdkn
-</div>
+
+<textarea>type somthing here</textarea>
+
 <canvas id="myCanvas" width="200" height="100" ></canvas>
 <script>
     const myCanvas = document.getElementById("myCanvas")
     const ctx = myCanvas.getContext("2d");
     ctx.fillStyle = "aquamarine";
     ctx.fillRect(20, 20, 150, 150)
-    </script>
-<div>
-    divide
-</div>
+</script>
+
 <script>
     document.getElementById("d1").innerHTML="hello <i>SG!</i>"
-    document.getElementsByClassName("greetings").style.color=“black”;
+    document.getElementsByClassName("greetings").style.color="red";
 </script>
-<div>
-    divide
+<!--classname还有问题-->
+<div id="d1" classname="greetings">
+    aeliosfdkn
 </div>
 
 </body>
