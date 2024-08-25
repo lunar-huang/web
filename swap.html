@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!---->
-        <title>Metatest Portfolio</title>
-        <link rel="shortcut icon" type="image/x-icon" href="./icon.png">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-        <style>
-            body {
-                background-color: #101010;
-            }
-        </style>
-    </head>
 
-    <body>
-        <!--
-            左上角 icon
+<head>
+    <!---->
+    <meta charset="utf-8">
+    <title>Metatest Portfolio</title>
+    <link rel="shortcut icon" type="image/x-icon" href="./icon.png">
+    <link rel="stylesheet" type="text/css" href="swap.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.37/dist/web3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.6.0/web3.min.js"></script>
+
+    <style>
+        body {
+            background-color: #151515;
+        }
+    </style>
+</head>
+
+<body>
+    <!--
+            *****************************************左上角 icon
             左侧边栏
-            上部logo+名字
+            *****************************************上部logo+名字
             右上部：
             搜索栏
             一个点选框
@@ -35,24 +41,130 @@
             下侧两个button，一个蓝色
             一个不明显，可能是href
         -->
-        <div class="container-fluid">
-        <div class="row">
+    <div class="row container-fluid">
+        <div class="col-2">
             <!-- 侧边栏 -->
-            <div class="col-md-2 sidebar">
-                <h4>METAMASK Portfolio</h4>
-                <a href="#">Overview</a>
-                <a href="#">Move crypto</a>
-                <a href="#">Tokens</a>
-                <a href="#">NFTs</a>
-                <a href="#">Games</a>
-                <a href="#">Terms of Use</a>
+            <div class="desktop-nav-sidebar">
+                <div class="container-fluid fox-icon row-2">
+                    <!-- 狐狸头像 -->
+                    <img src="https://portfolio.metamask.io/assets/portfolio-logo-dark-34c7653e.svg" alt="loading error!" width="125%">
+                </div>
+                <!--空出导航栏部分-->
+                <div class="row"></div>
+                <!--导航栏按钮-->
+                <button class="nav-button" href="#overview">Overview</button>
+                <!--特殊按钮-->
+                <button id="navOverview" class="nav-button" onclick="secondNavBarShow()">Move crypto</button>
+                <button class="nav-button" href="#tokens">Tokens</button>
+                <button class="nav-button" href="#nfts">NFTs</button>
+                <button class="nav-button" href="#games">Games</button>
+                <!--空出导航栏部分-->
+                <div class="nav-space"></div>
+                <button class="nav-button" href="#">Terms of Use</button>          
+            </div>
+            
+        </div>
+        <!--二级菜单-->
+        <div class="col-2">
+            <div id="hiddenBar" class="desktop-nav-sidebar">
+                <!--overview-->
+                <button class="nav-button">Buy</button>
+                <button class="nav-button">Sell</button>
+                <button class="nav-button">Swap</button>
+                <button class="nav-button">Send&receive</button>
+                <button class="nav-button">Bridge</button>
+                <button class="nav-button">Stake</button>
             </div>
         </div>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#active">Active</a>
-            </li>
-        </ul>
-        
-    </body>
+        <!--右侧部分-->
+        <div class="col-8">
+            <!--顶部搜索栏及通知按钮-->
+            <div class="row-2">
+                <div class="inline-block">
+                    <h2 class="swapHead">Swap</h2>
+                </div>    
+                <div class="input-container ">
+                    <input class="searchInput" placeholder="search for a token">
+                </div>
+                <div class="inline-block">
+                    <!-- 添加其他元素，例如通知按钮或其他图标 -->
+                    <button class="notification-btn">🔔</button>
+                </div>
+            </div>
+            <div >
+            <!--card页面-->
+            <div class="container mt-5">
+                <div class="card text-white bg-dark mb-5" style="max-width: 30rem; margin: auto;">
+                    <div class="card-body ">
+                        <!--显示个人信息-->
+                        <select class="NFTSelect">
+                            <option id="userWallet">NoConnection</option>
+                        </select>
+                        <!--顶部下拉框-->
+                        <select class="NFTSelect">
+                            <option>Ethereum</option>
+                            <option>Optimism</option>
+                            <option>BNB Chain</option>
+                            <option>Polygon</option>
+                            <option>Base</option>
+                            <option>Arbitrum</option>
+                            <option>Avalanche</option>
+                            <option>Linea</option>
+                        </select>
+                        <!-- Swap from -->
+                        <div class="mb-5">
+                            <label for="swapFrom" class="form-label">Swap from</label>
+                            <select class="form-select" id="swapFrom">
+                                <option selected>Select...</option>
+                                <option value="1">Token 1</option>
+                                <option value="2">Token 2</option>
+                                <option value="3">Token 3</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Amount</label>
+                            <input type="number" class="form-control" id="amount" placeholder="0">
+                        </div>
+            
+                        <!-- Swap to -->
+                        <div class="mb-3">
+                            <label for="swapTo" class="form-label">Swap to</label>
+                            <select class="form-select" id="swapTo">
+                                <option selected>ETH</option>
+                                <option value="1">Token 1</option>
+                                <option value="2">Token 2</option>
+                                <option value="3">Token 3</option>
+                            </select>
+                        </div>
+            
+                        <!-- Advanced options -->
+                        <div class="mb-3">
+                            <button class="btn btn-link text-light" type="button" data-bs-toggle="collapse" data-bs-target="#advancedOptions" aria-expanded="false" aria-controls="advancedOptions">
+                                Advanced Options
+                            </button>
+                            <div class="collapse" id="advancedOptions">
+                                <div class="card card-body text-dark bg-light">
+                                    <!-- Additional advanced settings can go here -->
+                                    <p>No additional settings available.</p>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <!-- Connect wallet button -->
+                        <div class="d-grid">
+                            <button id="checkMetaMask" class="btn btn-primary" type="button">Connect Wallet</button>
+                        </div>
+                        <script src="./swap.js"></script>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="text-light">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+            
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>
