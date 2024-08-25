@@ -44,15 +44,12 @@
     height: 5%;
     width: 100%;
     display: flex;
-    background-color:transparent;
     justify-content: center;
     align-items: center;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: medium;
     color: #A0A0A0;
-}
 
-button {
     outline: none;
     border: none;
     background-color: inherit;
@@ -61,12 +58,11 @@ button {
     transition: none; /* 去除所有过渡效果 */
 }
 
-button:active {
+.nav-button:active {
     background-color: inherit;
     box-shadow: none;
     transform: none;
 }
-
 
 .nav-button:hover{
     background-color: #353535;
@@ -153,16 +149,21 @@ button:active {
     display: block;
 }
 
-.dropNav{
-    background-color: #999999;
-    margin: 0;
-    padding: 0;
-    width: 200px;
-    position: fixed;
-    height: 100%;
-    display: block;
+.form-label{
+    font-weight: bold;
+    font-family:Century Gothic;
+    color:whitesmoke;
+    float:left;
 }
-
-#navOverview:hover #dropab{
-    display: none;
+.taxRateBtn{
+    justify-content: center;
+    min-width: 50px;
+    width: auto;
+    background-color: inherit;
+    border-color: #999999;
+    border-radius: 15px;
+    box-shadow: none;
+    float: right;
+    color: #A0A0A0;
+    margin-left: 15px;
 }

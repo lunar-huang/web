@@ -20,34 +20,14 @@
 </head>
 
 <body>
-    <!--
-            *****************************************左上角 icon
-            左侧边栏
-            *****************************************上部logo+名字
-            右上部：
-            搜索栏
-            一个点选框
-            一个通知图标，点击可以看到通知
-            一个button可以设置连接钱包
-            中间一个框
-            内部：
-            下拉框，默认ethereum
-            一个类似下拉框但是点击后显示搜索栏
-            和type框连接
-            下面类似，一个目测是下拉框但是点击后搜索栏
-            一个addition？点击后显示省略的内容
-            一个提示图标，鼠标移动后可以显示通知
-            右侧三个选择，两个固定，有一个点击后可以输入百分比
-            下侧两个button，一个蓝色
-            一个不明显，可能是href
-        -->
     <div class="row container-fluid">
+        <!-- 侧边导航栏 -->
         <div class="col-2">
-            <!-- 侧边栏 -->
             <div class="desktop-nav-sidebar">
                 <div class="container-fluid fox-icon row-2">
                     <!-- 狐狸头像 -->
-                    <img src="https://portfolio.metamask.io/assets/portfolio-logo-dark-34c7653e.svg" alt="loading error!" width="125%">
+                    <img src="https://portfolio.metamask.io/assets/portfolio-logo-dark-34c7653e.svg"
+                        alt="loading error!" width="125%">
                 </div>
                 <!--空出导航栏部分-->
                 <div class="row"></div>
@@ -60,10 +40,10 @@
                 <button class="nav-button" href="#games">Games</button>
                 <!--空出导航栏部分-->
                 <div class="nav-space"></div>
-                <button class="nav-button" href="#">Terms of Use</button>          
+                <button class="nav-button" href="#">Terms of Use</button>
             </div>
-            
         </div>
+
         <!--二级菜单-->
         <div class="col-2">
             <div id="hiddenBar" class="desktop-nav-sidebar">
@@ -76,32 +56,42 @@
                 <button class="nav-button">Stake</button>
             </div>
         </div>
+
         <!--右侧部分-->
         <div class="col-8">
             <!--顶部搜索栏及通知按钮-->
             <div class="row-2">
                 <div class="inline-block">
                     <h2 class="swapHead">Swap</h2>
-                </div>    
+                </div>
                 <div class="input-container ">
                     <input class="searchInput" placeholder="search for a token">
                 </div>
                 <div class="inline-block">
-                    <!-- 添加其他元素，例如通知按钮或其他图标 -->
-                    <button class="notification-btn">🔔</button>
+                    <button style="background-color: transparent;border: none;">⚡</button>
+                </div>
+                <div class="inline-block">
+                    <button style="background-color: transparent;border: none;">🔔</button>
+                </div>
+                <div class="inline-block">
+                    <!-- metamask头像 -->
+                    <button id="checkMetaMask-vice" class="btn btn-primary" type="button"
+                        style="background-color:#43aefc; font-weight:normal; font-family: Gothic; color:#252525;">Connect
+                        Wallet</button>
                 </div>
             </div>
-            <div >
+
             <!--card页面-->
             <div class="container mt-5">
-                <div class="card text-white bg-dark mb-5" style="max-width: 30rem; margin: auto;">
+                <div class="card text-white bg-dark mb-5"
+                    style="max-width: 30rem;min-height: 35rem; margin: auto; border-radius: 20px;">
                     <div class="card-body ">
                         <!--显示个人信息-->
-                        <select class="NFTSelect">
+                        <select class="NFTSelect mt-1">
                             <option id="userWallet">NoConnection</option>
                         </select>
                         <!--顶部下拉框-->
-                        <select class="NFTSelect">
+                        <select class="NFTSelect mt-1">
                             <option>Ethereum</option>
                             <option>Optimism</option>
                             <option>BNB Chain</option>
@@ -111,58 +101,80 @@
                             <option>Avalanche</option>
                             <option>Linea</option>
                         </select>
-                        <!-- Swap from -->
-                        <div class="mb-5">
+
+                        <!-- 可调换 Swap from -->
+                        <div class="mb-5" style="float: left; width:50%; background-color: transparent;">
                             <label for="swapFrom" class="form-label">Swap from</label>
                             <select class="form-select" id="swapFrom">
-                                <option selected>Select...</option>
-                                <option value="1">Token 1</option>
-                                <option value="2">Token 2</option>
-                                <option value="3">Token 3</option>
+                                <option value="1">DAI</option>
+                                <option value="2">USDT</option>
+                                <option value="3">WBTC</option>
+                                <option value="4">WETH</option>
+                                <option value="5">FDUSD</option>
+                                <option value="6">TON</option>
+                                <option value="7">PEPE</option>
+                                <option value="8">MATIC</option>
                             </select>
+                            <p id="getBalance" style="color: rgba(228, 155, 155, 0.849);"></p>
                         </div>
-                        <div class="mb-3">
+                        <!--amount input 默认0-->
+                        <div class="mb-3" style="float: right; width:50%; background-color: transparent;">
                             <label for="amount" class="form-label">Amount</label>
                             <input type="number" class="form-control" id="amount" placeholder="0">
                         </div>
-            
-                        <!-- Swap to -->
+                        <!-- 可调换 Swap to -->
                         <div class="mb-3">
-                            <label for="swapTo" class="form-label">Swap to</label>
+                            <p for="swapTo" class="form-label">Swap to</p>
+                            <button style="background-color: transparent;border: none;" onclick="reverse()">🔄</button>
                             <select class="form-select" id="swapTo">
-                                <option selected>ETH</option>
-                                <option value="1">Token 1</option>
-                                <option value="2">Token 2</option>
-                                <option value="3">Token 3</option>
+                                <option value="1">DAI</option>
+                                <option value="2">USDT</option>
+                                <option value="3">WBTC</option>
+                                <option value="4">WETH</option>
+                                <option value="5">FDUSD</option>
+                                <option value="6">TON</option>
+                                <option value="7">PEPE</option>
+                                <option value="8">MATIC</option>
                             </select>
                         </div>
-            
                         <!-- Advanced options -->
-                        <div class="mb-3">
-                            <button class="btn btn-link text-light" type="button" data-bs-toggle="collapse" data-bs-target="#advancedOptions" aria-expanded="false" aria-controls="advancedOptions">
+                        <div class="mb-3 row" style="text-align: center; justify-content: center;">
+                            <button class="btn btn-link text-light" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#advancedOptions" aria-expanded="false" aria-controls="advancedOptions"
+                                style="text-decoration: none;">
                                 Advanced Options
                             </button>
-                            <div class="collapse" id="advancedOptions">
-                                <div class="card card-body text-dark bg-light">
-                                    <!-- Additional advanced settings can go here -->
-                                    <p>No additional settings available.</p>
+                            <div class="collapse row " id="advancedOptions" style="justify-content: center;">
+                                <div class="card-body">
+                                    <p
+                                        style="width:20%;float: left; font-weight:bold; font-family: Gothic; color: whitesmoke;">
+                                        Slippage Tolerance</p>
+                                    <button class="taxRateBtn">custom</button>
+                                    <button class="taxRateBtn">3%</button>
+                                    <button class="taxRateBtn">2%</button>
+                                    <p style="width:20%; float: right;">❕</p>
                                 </div>
                             </div>
                         </div>
-            
+
                         <!-- Connect wallet button -->
                         <div class="d-grid">
-                            <button id="checkMetaMask" class="btn btn-primary" type="button">Connect Wallet</button>
+                            <button id="checkMetaMask" class="btn btn-primary" type="button"
+                                style="background-color:#43aefc; font-weight:normal; font-family: Gothic; color:#252525;">Connect
+                                Wallet</button>
                         </div>
                         <script src="./swap.js"></script>
                     </div>
+
+                    <!--底部-->
                     <div class="card-footer text-center">
-                        <a href="#" class="text-light">Terms of Service</a>
+                        <a href="#"
+                            style="float: left; font-family: Gothic; color: #43aefc; text-decoration: none;">Terms of
+                            Service</a>
                     </div>
                 </div>
             </div>
-            
-            </div>
+
         </div>
     </div>
 </body>

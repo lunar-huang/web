@@ -16,6 +16,13 @@ function secondNavBarShow() {
     document.getElementById('hiddenBar').hidden = false;
 }
 
+// 按钮调换内容
+function reverse()//点击交换按钮运行此处代码
+{
+    var a=document.getElementById('swapFrom').value;
+    document.getElementById('swapFrom').value=document.getElementById('swapTo') .value;
+    document.getElementById('swapTo').value=a;
+}
 
 // 连接钱包的函数
 async function connectWallet() {
@@ -31,7 +38,8 @@ async function connectWallet() {
             console.log('Connected account:', account);
 
             // 更新按钮文本或在页面上显示已连接的地址
-            document.getElementById('checkMetaMask').innerText = `Check Balance`;
+            document.getElementById('checkMetaMask').innerText = `Get Quotes`;
+            document.getElementById('checkMetaMask-vice').hidden=true;
             document.getElementById('userWallet').innerText = `${account}`;
 
             isConnected = true; // 标记为已连接
@@ -60,8 +68,10 @@ async function connectWallet() {
             // 比较余额与输入金额
             if (balance >= amount) {
                 alert(`You have sufficient balance. your balance is ${balance}`);
+                //document.getElementById('getBalance').innerText = `You have sufficient balance. your balance is ${balance}`
             } else {
-                alert(`Insufficient balance. your balance is ${balance}`);
+                //alert(`Insufficient balance. your balance is ${balance}`);
+                document.getElementById('getBalance').innerText = `Insufficient balance. your balance is ${balance}`
             }
         }
     } catch (error) {
@@ -71,9 +81,8 @@ async function connectWallet() {
 
 // 监听按钮点击事件
 document.getElementById('checkMetaMask').addEventListener('click', connectWallet);
+document.getElementById('checkMetaMask-vice').addEventListener('click', connectWallet);
 // 显示二级菜单
-//document.getElementById('navOverview').addEventListener('focus', secondNavBarShow);
-//document.getElementById('navOverview').addEventListener('blur', secondNavBarHide);
 document.addEventListener('click', function(event) {
     // 获取指定区域的元素
     const specifiedElement = document.getElementById('navOverview'); // 替换为你指定区域的ID
