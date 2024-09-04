@@ -81,11 +81,36 @@
 <body>
     <div class="container">
         <h1>User Management System</h1>
-        <input type="number" id="inputUser" placeholder="Enter amount" />
-        <input type="password" id="inputPwd" placeholder="Enter password" />
-        <button id="login" onclick="storeValue()">Login</button>
-        <button id="sign up" onclick="getValue()">Sign Up</button>
-        <div id="output"></div>
-    </div>   
+        <!-- Login Form -->
+        <form id="loginForm">
+            <input type="text" name="username" placeholder="Enter Username" required><br><br>
+            <input type="password" name="password" placeholder="Enter Password" required><br><br>
+            <button type="submit">Login</button>
+        </form>
+        
+        <!-- Sign Up Form -->
+        <form method="GET" action="{{ url_for('register') }}">
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>  
+    <script>
+        $(document).ready(function() {
+            $('#loginForm').on('submit', function(event) {
+                event.preventDefault();  // Prevent the form from submitting the default way
+
+                $.ajax({
+                    url: "{{ url_for('login') }}",
+                    method: "POST",
+                    data: $(this).serialize(),  // Serialize form data
+                    success: function(response) {
+                        window.location.href = "/dashboard";  // Redirect to dashboard on success
+                    },
+                    error: function(xhr) {
+                        alert("Login failed: " + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script> 
 </body>
 </html>

@@ -1,82 +1,95 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import timedelta
+
+import mariadb
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # 用于 session 加密，换成更安全的密钥
+app.secret_key = 'your_secret_key'  # Replace with your own secret key
+# 设置 session 过期时间为 3 分钟
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=3)
 
-# 首页路由
-@app.route('/')
-def home():
-    return render_template('index.html')  # 默认显示登录页面
-
-# 数据库连接
+# Database connection setup
+# Function to establish a connection to MariaDB
 def get_db_connection():
     conn = mariadb.connect(
-        user="root",
-        password="yourpassword",  # 替换为你的 MariaDB 密码
+        user="root",  # Your MariaDB username
+        password="root",  # Your MariaDB password
         host="localhost",
-        database="user_system"
+        database="user_record"  # The database you created
     )
     return conn
-""" 
-# 注册路由
-@app.route('/register', methods=['GET', 'POST'])
+
+# Home page (index)
+@app.route('/')
+def home():
+    session.permanent = True  # 将 session 设置为永久的，这样可以使用 PERMANENT_SESSION_LIFETIME
+     # 尝试连接数据库
+    try:
+        conn = get_db_connection()
+        conn.close()
+        connection_status = "Database connected successfully!"
+    except mariadb.Error as e:
+        connection_status = f"Failed to connect to the database: {e}"
+
+    return render_template('index.html', connection_status=connection_status)
+
+@app.route('/register', methods=['GET','POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        password_hash = generate_password_hash(password)  # 对密码进行加密
-
+        password_hash = generate_password_hash(password)  # Hash the password for security
+        print(f"Received login request: username={username}, password={password}")
         try:
             conn = get_db_connection()
             cursor = conn.cursor()
-            cursor.execute('INSERT INTO users (username, password_hash) VALUES (?, ?)', (username, password_hash))
+            # Insert the new user into the database
+            cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, password_hash))
             conn.commit()
             conn.close()
-            flash('注册成功，请登录', 'success')  # 提示用户注册成功
-            return redirect(url_for('login'))
+            flash('Registration successful. You can now log in.', 'success')
+            return redirect(url_for('home'))
         except mariadb.Error as e:
             flash(f'Error: {e}', 'danger')
-    
-    return render_template('register.html')  # 渲染注册页面
+            return redirect(url_for('register'))  # Redirect back to register in case of error
 
-# 登录路由
-@app.route('/login', methods=['GET', 'POST'])
+    return render_template('register.html')
+
+# Login route
+@app.route('/login', methods=['POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    username = request.form['username']
+    password = request.form['password']
 
+    try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT password_hash FROM users WHERE username = ?', (username,))
+        cursor.execute('SELECT password FROM users WHERE username = ?', (username,))
         user = cursor.fetchone()
         conn.close()
 
-        if user and check_password_hash(user[0], password):  # 验证用户输入的密码是否匹配
-            session['user'] = username  # 创建 session
-            flash('登录成功', 'success')
-            return redirect(url_for('dashboard'))  # 跳转到用户主页或其他功能页
+        if user and check_password_hash(user[0], password):
+            session['user'] = username  # 确保在登录成功后将用户名存储到 session 中
+            session.permanent = True  # 设置 session 为永久，使用配置的过期时间
+            return redirect(url_for('dashboard'))
         else:
-            flash('用户名或密码错误', 'danger')
+            flash('Invalid username or password', 'danger')
+            return redirect(url_for('home'))
+    except mariadb.Error as e:
+        flash(f'Database error: {e}', 'danger')
+        return redirect(url_for('home'))
 
-    return render_template('login.html')  # 渲染登录页面
-
-# 用户主页（示例）
+# Dashboard route
 @app.route('/dashboard')
 def dashboard():
-    if 'user' in session:
-        return render_template('dashboard.html')
+    if 'user' in session:  # 检查 session 中是否有用户名
+        username = session['user']  # 获取当前登录的用户名
+        return render_template('dashboard.html', username=username)  # 将用户名传递给模板
     else:
-        flash('请先登录', 'warning')
-        return redirect(url_for('login'))
+        flash('Please log in to access the dashboard.', 'warning')
+        return redirect(url_for('home'))  # 如果没有登录，重定向到登录页面
 
-# 注销路由（可选）
-@app.route('/logout')
-def logout():
-    session.pop('user', None)  # 清除 session
-    flash('已注销', 'info')
-    return redirect(url_for('login')) """
 
 if __name__ == '__main__':
     app.run(debug=True)
