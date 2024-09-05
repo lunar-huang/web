@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import timedelta
+import os
 
 import mariadb
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace with your own secret key
+app.secret_key = os.urandom(32)  # Replace with your own secret key
 # 设置 session 过期时间为 3 分钟
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=3)
 
@@ -28,7 +29,7 @@ def home():
     try:
         conn = get_db_connection()
         conn.close()
-        connection_status = "Database connected successfully!"
+        connection_status = "Website is ready!"
     except mariadb.Error as e:
         connection_status = f"Failed to connect to the database: {e}"
 
