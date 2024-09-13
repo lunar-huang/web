@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Exchange Layout</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #1f1f1f;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 0.3fr 1.2fr 0.5fr; /* Adjust the proportions here */
+            grid-gap: 10px;
+            padding: 20px;
+        }
+
+        .orderbook, .chart, .trades {
+            background-color: #292929;
+            border-radius: 8px;
+            color: white;
+            padding: 15px;
+            /* Ensure that content stretches but avoid internal scrollbars */
+            min-height: 400px;
+            overflow: hidden; /* No scrollbars inside the box */
+        }
+
+        .chart img {
+            width: 100%; /* Make the image fully responsive inside chart */
+            height: auto; /* Allow height to adjust dynamically */
+        }
+
+        .orderbook {
+            grid-column: 1;
+        }
+
+        .chart {
+            grid-column: 2;
+        }
+
+        .trades {
+            grid-column: 3;
+        }
+
+        .market-activity {
+            grid-column: 1 / span 3;
+            margin-top: 20px;
+            background-color: #2e2e2e;
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="orderbook">
+            <h2>Order Book</h2>
+            <!-- Order Book content -->
+        </div>
+
+        <div class="chart">
+            <h2>Chart</h2>
+            <!-- Add an image as an example to test the layout -->
+            <img src="https://via.placeholder.com/1000x500" alt="Sample Chart">
+        </div>
+
+        <div class="trades">
+            <h2>Trades</h2>
+            <!-- Trades content -->
+        </div>
+
+        <div class="market-activity">
+            <h2>Market Activity</h2>
+            <!-- Market Activity content -->
+        </div>
+    </div>
+</body>
+
+</html>

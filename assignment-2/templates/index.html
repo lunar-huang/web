@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta charset="UTF-8">
@@ -33,7 +34,8 @@
             color: #333;
         }
 
-        input, button {
+        input,
+        button {
             width: 100%;
             padding: 10px;
             margin-top: 10px;
@@ -60,6 +62,20 @@
             color: #007bff;
         }
 
+        .remember-me {
+            display:inline-flex;
+            justify-content: center; /* 水平居中 */
+            align-items: center;  /* 垂直居中 */
+            margin-top: 10px;
+        }
+        .remember-me input {
+            margin-right: 5px;
+        }
+        .form-check-label {
+            margin-bottom: 0;  /* 移除底部 margin */
+            color:darkgray;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -69,7 +85,8 @@
                 font-size: 20px;
             }
 
-            input, button {
+            input,
+            button {
                 font-size: 14px;
             }
 
@@ -79,40 +96,54 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>User Management System</h1>
         <!-- 显示数据库连接状态 -->
         <p>{{ connection_status }}</p>
-        <form id="loginForm">
-            <input type="text" name="username" placeholder="Enter Username" required><br><br>
-            <input type="password" name="password" placeholder="Enter Password" required><br><br>
-            <button type="submit">Login</button>
+
+        <form method="POST" action="/login" id="loginForm">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username"
+                    required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password"
+                    required>
+                <div class="remember-me">
+                    <input type="checkbox" id="remember_me" name="remember_me">
+                    <label class="form-check-label" for="remember_me" >RememberMe</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mt-3">Login</button>
         </form>
-        
+
         <form method="GET" action="{{ url_for('register') }}">
             <button type="submit">Sign Up</button>
         </form>
 
-    </div>  
+    </div>
     <script>
-        $(document).ready(function() {
-            $('#loginForm').on('submit', function(event) {
+        $(document).ready(function () {
+            $('#loginForm').on('submit', function (event) {
                 event.preventDefault();  // Prevent the form from submitting the default way
 
                 $.ajax({
                     url: "{{ url_for('login') }}",
                     method: "POST",
                     data: $(this).serialize(),  // Serialize form data
-                    success: function(response) {
+                    success: function (response) {
                         window.location.href = "/dashboard";  // Redirect to dashboard on success
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         alert("Login failed: " + xhr.responseText);
                     }
                 });
             });
         });
-    </script> 
+    </script>
 </body>
+
 </html>
